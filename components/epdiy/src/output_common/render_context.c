@@ -1,0 +1,61 @@
+#include "render_context.h"
+
+#include "../epdiy.h"
+#include "lut.h"
+
+/// For waveforms without timing and the I2S diving method,
+/// the default hold time for each line is 12us
+//const static int DEFAULT_FRAME_TIME = 120;
+
+static inline int min(int x, int y) { return x < y ? x : y; }
+
+void get_buffer_params(RenderContext_t *ctx, int *bytes_per_line, const uint8_t** start_ptr, int* min_y, int* max_y, int* pixels_per_byte) {
+    EpdRect area = ctx->area;
+
+    enum EpdDrawMode mode = ctx->mode;
+    const EpdRect crop_to = ctx->crop_to;
+    const bool horizontally_cropped = !(crop_to.x == 0 && crop_to.width == area.width);
+    const bool vertically_cropped = !(crop_to.y == 0 && crop_to.height == area.height);
+
+    // number of pixels per byte of input data
+    int width_divider = 0;
+
+    if (mode & MODE_PACKING_1PPB_DIFFERENCE) {
+        *bytes_per_line = area.width;
+        width_divider = 1;
+    } else if (mode & MODE_PACKING_2PPB) {
+        *bytes_per_line = area.width / 2 + area.width % 2;
+        width_divider = 2;
+    } else if (mode & MODE_PACKING_8PPB) {
+        *bytes_per_line = (area.width / 8 + (area.width % 8 > 0));
+        width_divider = 8;
+    } else {
+        ctx->error |= EPD_DRAW_INVALID_PACKING_MODE;
+    }
+
+    int crop_x = (horizontally_cropped ? crop_to.x : 0);
+    int crop_y = (vertically_cropped ? crop_to.y : 0);
+    int crop_h = (vertically_cropped ? crop_to.height : 0);
+
+    const uint8_t *ptr_start = ctx->data_ptr;
+
+    // Adjust for negative starting coordinates with optional crop
+    if (area.x - crop_x < 0) {
+        ptr_start += -(area.x - crop_x) / width_divider;
+    }
+
+    if (area.y - crop_y < 0) {
+        ptr_start += -(area.y - crop_y) * *bytes_per_line;
+    }
+
+    *min_y = area.y + crop_y;
+    *max_y =
+        min(*min_y + (vertically_cropped ? crop_h : area.height), area.height);
+    *start_ptr = ptr_start;
+    *pixels_per_byte = width_divider;
+}
+
+void IRAM_ATTR prepare_context_for_next_frame(RenderContext_t *ctx) {
+    ctx->lines_prepared = 0;
+    ctx->lines_consumed = 0;
+}
