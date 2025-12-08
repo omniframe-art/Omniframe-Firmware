@@ -12,7 +12,6 @@
 
 #include "../components/epdiy/src/output_lcd/lcd_driver.h"
 #include "../components/epdiy/src/epd_internals.h"
-//#include "../components/epdiy/src/board/tps65185.h"
 #include "../components/epdiy/src/render.h"
 #include "../components/epdiy/src/epd_board.h"
 #include "../components/epdiy/src/epd_highlevel.h"

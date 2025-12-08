@@ -5,6 +5,8 @@
 #include "nvs_flash.h"
 #include "nvs.h"
 #include <string.h> // For strncpy, memset
+#include "esp_log.h"
+#include "esp_err.h"
 
 char current_queue[QUEUE_SIZE][MAX_FILENAME_LENGTH] = {0}; // Initialize with empty strings
 char new_queue[QUEUE_SIZE][MAX_FILENAME_LENGTH] = {0};

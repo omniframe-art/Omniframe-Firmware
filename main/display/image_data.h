@@ -3,8 +3,8 @@
 
 #include <stdbool.h>
 #include <stdint.h>
-#include "../components/epdiy/src/epd_highlevel.h"
-#include "../components/epdiy/src/render.h"
+#include "../../components/epdiy/src/epd_highlevel.h"
+#include "../../components/epdiy/src/render.h"
 
 
 #define IMAGE_PARTITION_SUBTYPE 0x82

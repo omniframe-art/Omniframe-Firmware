@@ -11,7 +11,7 @@
 #include "config.h"
 #include "measure.h"
 #include "image_queue.h"
-#include "../components/epdiy/src/output_common/lut.h"
+#include "../../components/epdiy/src/output_common/lut.h"
 
 static const char *TAG = "API";
 

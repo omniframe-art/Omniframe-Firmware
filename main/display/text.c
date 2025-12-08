@@ -1,6 +1,6 @@
 #include "text.h"
-#include "../components/epdiy/src/epd_highlevel.h"
-#include "../components/epdiy/src/epdiy.h"
+#include "../../components/epdiy/src/epd_highlevel.h"
+#include "../../components/epdiy/src/epdiy.h"
 #include "wifi.h"
 #include "config.h"
 #include "image_data.h"

@@ -8,9 +8,9 @@
 #include <string.h>
 
 
-#include "../components/epdiy/src/epd_highlevel.h"
-#include "../components/epdiy/src/render.h"
-#include "../components/epdiy/src/epdiy.h"
+#include "../../components/epdiy/src/epd_highlevel.h"
+#include "../../components/epdiy/src/render.h"
+#include "../../components/epdiy/src/epdiy.h"
 
 
 EpdRect full_area = {.x = 0, .y = 0, .width = 1600, .height = 1200};
